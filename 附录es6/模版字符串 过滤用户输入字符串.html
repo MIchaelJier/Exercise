@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="inputRoom">
+    <input type="text" />
+    <button id="btn">提交</button>
+</div>
+
+<script>
+
+    btn.addEventListener('click',function(){
+        let sender = document.getElementsByTagName('input')[0].value;
+        let message =
+            SaferHTML`<p>您输入的内容为：${sender}</p>`;
+        function SaferHTML(templateData) {
+            let s = templateData[0];
+            for (let i = 1; i < arguments.length; i++) {
+                let arg = String(arguments[i]);
+
+                // Escape special characters in the substitution.
+                s += arg.replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;");
+                // Don't escape special characters in the template.
+                s += templateData[i];
+            }
+            return s;
+        }
+        console.log('存储值：' + message);
+        var node = document.createElement("div");
+        node.innerHTML = message;
+        var body = document.getElementsByTagName("body")[0];
+        body.appendChild(node);
+    })
+</script>
+</body>
+</html>

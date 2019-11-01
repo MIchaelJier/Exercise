@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>列表</title>
+</head>
+<link rel="stylesheet" href="../css/bootstrap.min.css">
+<script src="../js/vue.js"></script>
+<body>
+<div class="container">
+    <div id="app">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">添加品牌</h3>
+            </div>
+            <div class="panel-body form-inline">
+                <label>
+                    id:
+                    <input type="text" class="form-control" v-model="id">
+                </label>
+                <label>
+                    Name:
+                    <input type="text" class="form-control" v-model="name">
+                </label>
+                <input type="button" value="添加" class="btn btn-primary" @click="add()" @keyup.enter="add">
+                <label>
+                    搜索名称关键字:
+                    <input type="text" class="form-control" v-model="keywords" v-focus v-color="'blue'">
+                </label>
+            </div>
+
+        </div>
+        <table class="table table-bordered table-hover table-striped">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Ctime</th>
+                <th>Operation</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(item,i) in search(keywords)" :key="item.id">
+                <td>{{ item.id }}</td>
+                <td v-fontweight="'800'">{{ item.name }}</td> <!--私有指令fontweight-->
+                <td>{{ item.ctime | dateFormat('yyyy-MM-DD') }}</td>
+                <td><a href="" @click.prevent="del(item.id)">删除</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+    //全局过滤器 -- 时间过滤器
+   /* Vue.filter('dateFormat',function (dateStr,pattern='') {
+        var dt = new Date(dateStr);
+        // yyyy-mm-dd
+        var y = dt.getFullYear();
+        var m = (dt.getMonth() + 1).toString().padStart(2,'0');
+        var d = dt.getDate().toString().padStart(2,'0');
+
+
+        if(pattern.toLowerCase() == 'yyyy-mm-dd'){
+            return `${y}-${m}-${d}`;
+        }else{
+            var hh = dt.getHours().toString().padStart(2,'0');
+            var mm = dt.getMinutes().toString().padStart(2,'0');
+            var ss = dt.getSeconds().toString().padStart(2,'0');
+
+            return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+        }
+    });*/
+
+    //定义全局指令
+     ////
+    Vue.directive('focus',{
+       bind:function (el) {
+           //在元素 刚刚绑定了指令的时候，还没有 插入到 DOM中去，这时候调用focus方法没有作用
+           //因为一个元素只有插入DOM后才能获取焦点
+           /*el.focus();*/
+       },
+        //插入到DOM中去执行
+        //和JS相关的操作，最好在 inserted 中去执行，防止JS行为不生效
+       inserted:function (el) {
+           el.focus();
+       },
+        //DOM节点更性=新
+       updated:function (el) {
+
+       }
+    });
+     //自定义一个 设置字体颜色的指令
+    Vue.directive('color',{
+        //和样式相关的，一般都可以在bind中执行
+       bind:function (el, binding) {
+           el.style.color = binding.value;
+       }
+    });
+
+    var vm = new Vue({
+    el:'#app',
+    data:{
+        id:'',
+        name:'',
+        keywords:'', //搜索关键字
+        list:[
+            {id: 1,name: '3Colour',ctime: new Date()},
+            {id: 2,name: 'ibudu',ctime: new Date()},
+            {id: 3,name: 'LEISURE',ctime: new Date()},
+            ]
+    },
+    methods:{
+        add() {
+           var car = { id: this.id,name: this.name,ctime:new Date() };
+           this.list.push(car);
+           this.id = this.name = '';
+        },
+        del(id) {
+            //方法1
+            /*this.list.some((item,i)=>{
+                if(item.id == id){
+                    this.list.splice(i,1);
+                    return true;
+                }
+            });*/
+            //方法2
+            var index = this.list.findIndex(item =>{
+                if(item.id == id){
+                    return true;
+                }
+            });
+            this.list.splice(index,1);
+        },
+        search(keywords){
+            var newList = [];
+            //方法1
+            /*
+            this.list.forEach(item => {
+                if(item.name.indexOf(keywords) != -1){
+                    newList.push(item)
+                }
+            });
+            */
+            //方法2
+            newList = this.list.filter(item =>{
+                //ES6 新方法 string。prototype。includes()
+                if(item.name.includes(keywords)){
+                    return item;
+                }
+            });
+            return newList;
+        }
+    },
+    filters:{
+        dateFormat: function (dateStr,pattern = '') {
+            var dt = new Date(dateStr);
+            // yyyy-mm-dd
+            var y = dt.getFullYear();
+            var m = (dt.getMonth() + 1).toString().padStart(2,'0');
+            var d = dt.getDate().toString().padStart(2,'0');
+
+
+            if(pattern.toLowerCase() == 'yyyy-mm-dd'){
+                return `${y}-${m}-${d}`;
+            }else{
+                var hh = dt.getHours().toString().padStart(2,'0');
+                var mm = dt.getMinutes().toString().padStart(2,'0');
+                var ss = dt.getSeconds().toString().padStart(2,'0');
+
+                return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+            }
+        }
+    },
+    directives:{
+        'fontweight':{
+          /*  bind: function (el, binding) {
+                el.style.fontWeight = binding.value
+            },*/
+          /*
+          简写：这个function等同于 写在 了bind和updata里
+          */
+            function (el, binding) {
+                el.style.fontWeight = binding.value
+            }
+        }
+     }
+});
+</script>
+</body>
+</html>

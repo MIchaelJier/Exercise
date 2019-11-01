@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件案例-评论列表</title>
+    <script src="../js/vue.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <style>
+        .v-enter,.v-leave-to {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        .v-enter-active,.v-leave-active {
+            transition: all .5s ease;
+        }
+        .v-move {
+            transition: all .5s ease;
+        }
+        .v-leave-active{
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app" class="container">
+        <cmt-box @func="loadComment"></cmt-box>
+        <transition-group appear tag="ul" class="list-group">
+            <li class="list-group-item" v-for="item in list" :key="item.id">
+                <span class="badge">评论人:{{ item.user }}</span>
+                {{ item.content }}
+            </li>
+        </transition-group>
+    </div>
+
+    <template id="teml">
+        <div>
+            <div class="form-group">
+                <label>评论人:</label>
+                <input type="text" class="form-control" v-model="user">
+            </div>
+
+            <div class="form-group">
+                <label>评论内容</label>
+                <textarea class="form-control" v-model="content"></textarea>
+            </div>
+
+            <div class="form-group">
+                <input type="button" value="发布" class="btn btn-success" @click="PostComment">
+                <input type="button" value="清空所有" class="btn btn-danger pull-right" @click="ClearAllComment">
+            </div>
+        </div>
+
+    </template>
+
+    <script>
+        //评论 子组件
+        var commentBox = {
+            template:'#teml',
+            data() {
+                return {
+                    user:'',
+                    content:''
+                };
+            },
+            methods: {
+                PostComment(){
+                    this.user==''? this.user='空':this.user;
+                    this.content==''? this.content='空':this.content;
+
+                    var comment = { id:Date.now(),user:this.user,content:this.content };
+
+                    var list = JSON.parse(localStorage.getItem('cmts')||'[]');
+                    list.unshift(comment);
+                    localStorage.setItem('cmts',JSON.stringify(list));
+                    this.user = this.content = '';
+                    this.$emit('func');
+                },
+                ClearAllComment(){
+                    localStorage.clear();
+                    this.$emit('func');
+                }
+            },
+        };
+
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                list:[
+                  /*  {id:Date.now(),user:'Michael',content:'listItem1'},*/
+                ]
+            },
+            created(){
+                this.loadComment();
+            },
+            methods:{
+                loadComment(){
+                    var list = JSON.parse(localStorage.getItem('cmts')||'[]');
+                    this.list = list;
+                }
+            },
+            components: {
+                'cmtBox':commentBox,
+
+            }
+        })
+    </script>
+</body>
+</html>

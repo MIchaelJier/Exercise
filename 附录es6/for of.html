@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        Array.prototype.first = function () {
+            return this[0]
+        };
+        const fruits = [ 'Apple' , 'Banana','Orange','Mango'];
+        fruits.describe = 'My favorite fruits';
+
+        console.log('------------------------------------------------');
+
+        for(let index in fruits){
+            console.log(fruits[index]) //所有可迭代对象
+        }
+
+        console.log('------------------------------------------------');
+
+        for(let fruit of fruits){
+            console.log(fruit)
+        }
+
+        console.log('------------------------------------------------');
+
+        for(let [index,fruit] of fruits.entries()){
+            console.log(`${index} : ${fruit}`)
+        }
+
+        console.log('------------------------------------------------');
+
+        let name = 'Michael';
+        console.log(Array.from(name));
+        for (let char of name) {
+            console.log(char)
+        }
+    </script>
+</body>
+</html>

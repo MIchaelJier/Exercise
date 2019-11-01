@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+    function highlight(strings,...values) {
+        const  highlighted = values.map(value => `
+            <span style="font-weight: bold">
+                ${value}
+            </span>
+            `);
+        /*console.log(highlighted);*/
+        return strings.reduce((prev,curr,i) => `
+         ${prev}${curr}${highlighted[i] || '' }
+        `,'')
+    }
+
+    const user = 'Mary';
+    const  topic = 'Learn to use markdown';
+    const sentence = highlight`${user} has commented on your topic ${topic}`;
+
+    document.body.innerHTML = sentence;
+</script>
+</body>
+</html>

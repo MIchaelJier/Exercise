@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件，切换方式</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        .v-enter,.v-leave-to {
+            opacity: 0;
+            transform: translateX(50px);
+        }
+        .v-enter-active,.v-leave-active {
+            transition: all .5s ease;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <p>第一种切换方式</p>
+        <a href="" @click.prevent="flag = true">登录</a>
+        <a href="" @click.prevent="flag = false">注册</a>
+        <login v-if="flag"></login>
+        <register v-else></register>
+
+        <p>第二种切换方式</p>
+        <a href="" @click.prevent="comName = 'login'">登录</a>
+        <a href="" @click.prevent="comName = 'register'">注册</a>
+        <transition mode="out-in">
+            <component :is="comName"></component>
+        </transition>
+
+    </div>
+    <script>
+        Vue.component('login',{
+            template:'<h3>登录组件</h3>'
+        });
+
+        Vue.component('register',{
+           template: '<h3>注册组件</h3>'
+        });
+        let vm = new Vue({
+            el: '#app',
+            data: {
+                flag:true,
+                comName:'',
+            },
+            methods:{},
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    const inventory = [
+        {name: 'apple', quantity: 2},
+        {name: 'banana', quantity: 0},
+        {name: 'cherries', quantity: 5}
+    ];
+
+    //find
+    const  bananas = inventory.find(fruit => fruit.name === 'banana');
+    console.log(bananas); // {name: 'banana', quantity: 0},
+    //findIndex
+    const bananasIndex = inventory.findIndex(fruit => fruit.name === 'banana');
+    console.log(bananasIndex); //1
+    //some
+    const isEnough = inventory.some(fruit => fruit.quantity > 0);
+    console.log(isEnough);//true
+    //every
+    const isAllEnough = inventory.every(fruit => fruit.quantity > 0);
+    console.log(isAllEnough); //false
+
+    const arr1 = ['a','b','c'];
+    const arr2 = ['d','e'];
+    arr1.push(...arr2);
+    console.log(arr1);
+    console.log([...arr1,...arr2].map(a => a+' ok'));
+</script>
+</body>
+</html>
