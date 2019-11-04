@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="61b6b31e-b005-4ca1-8596-ca4ecc0af661" name="Default Changelist" comment="" />
+    <list default="true" id="61b6b31e-b005-4ca1-8596-ca4ecc0af661" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/附录es6/字符串的新增方法.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/附录es6/数值的扩展.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/附录es6/正则的扩展.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/附录es6/箭头函数，...rest等.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/列表.html" beforeDir="false" afterPath="$PROJECT_DIR$/vue/列表.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/附录es6/模版字符串 过滤用户输入字符串.html" beforeDir="false" afterPath="$PROJECT_DIR$/附录es6/模版字符串 过滤用户输入字符串.html" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,6 +30,9 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="JsFlowSettings">
     <service-enabled>true</service-enabled>
     <exe-path />
@@ -28,8 +40,12 @@
     <auto-save>true</auto-save>
   </component>
   <component name="ProjectId" id="1OXO3fYMneF674KiCVY0eho74XF" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="添加" />
+  </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.karma.karma_node_package_dir" value="" />
     <property name="js.buildTools.grunt.grunt-cli.package" value="" />
@@ -168,10 +184,23 @@
       <workItem from="1572247438032" duration="3676000" />
       <workItem from="1572332849259" duration="603000" />
       <workItem from="1572482284181" duration="8872000" />
+      <workItem from="1572598456234" duration="599000" />
+      <workItem from="1572827721632" duration="13997000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

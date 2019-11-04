@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <script>
+    //函数参数的默认值
+        function Point(x = 0, y = 0) {
+            this.x = x;
+            this.y = y;
+        }
+
+        const p = new Point();
+        console.log(p) // { x: 0, y: 0 }
+    //rest 参数
+        // ES6 引入 rest 参数（形式为...变量名），用于获取函数的多余参数，这样就不需要使用arguments对象了。
+        // rest 参数搭配的变量是一个数组，该变量将多余的参数放入数组中。
+
+         function add(...values) {
+             let sum = 0;
+
+             for (var val of values) {
+                 sum += val;
+             }
+
+             return sum;
+         }
+
+         add(2, 5, 3);// 10
+
+        // arguments变量的写法
+        function sortNumbers1() {
+            return Array.prototype.slice.call(arguments).sort();
+        }
+        //arguments对象不是数组，而是一个类似数组的对象。所以为了使用数组的方法，必须使用Array.prototype.slice.call先将其转为数组。
+        // rest参数的写法
+        const sortNumbers2 = (...numbers) => numbers.sort();
+
+    //严格模式
+        //ES2016 做了一点修改，规定只要函数参数使用了默认值、解构赋值、或者扩展运算符，那么函数内部就不能显式设定为严格模式，否则会报错。
+
+    //name 属性
+        //函数的name属性，返回该函数的函数名。
+         function foo() {}
+         foo.name;// "foo"
+
+    //箭头函数
+        //箭头函数有几个使用注意点。
+        //（1）函数体内的this对象，就是定义时所在的对象，而不是使用时所在的对象。
+        //（2）不可以当作构造函数，也就是说，不可以使用new命令，否则会抛出一个错误。
+        //（3）不可以使用arguments对象，该对象在函数体内不存在。如果要用，可以用 rest 参数代替。
+        //（4）不可以使用yield命令，因此箭头函数不能用作 Generator 函数。
+
+        function Timer() {
+            this.s1 = 0;
+            this.s2 = 0;
+            // 箭头函数
+            setInterval(() => this.s1++, 1000);
+            // 普通函数
+            setInterval(function () {
+                this.s2++;
+            }, 1000);
+        }
+
+        var timer = new Timer();
+
+        setTimeout(() => console.log('s1: ', timer.s1), 3100);// s1: 3
+        setTimeout(() => console.log('s2: ', timer.s2), 3100);  // s2: 0
+
+    //尾调用优化
+
+    //函数参数的尾逗号
+        //ES2017 允许函数的最后一个参数有尾逗号（trailing comma）。
+
+    //Function.prototype.toString()
+        // ES2019 对函数实例的toString()方法做出了修改。
+        //toString()方法返回函数代码本身，以前会省略注释和空格。
+
+    //catch 命令的参数省略
+        try {
+            // ...
+        } catch (err) {
+            // 处理错误
+        }
+        // 很多时候，catch代码块可能用不到这个参数。但是，为了保证语法正确，还是必须写。ES2019 做出了改变，允许catch语句省略参数。
+        try {
+            // ...
+        } catch {
+            // ...
+        }
+        </script>
+</body>
+</html>
