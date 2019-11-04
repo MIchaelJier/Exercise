@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="61b6b31e-b005-4ca1-8596-ca4ecc0af661" name="Default Changelist" comment="es6 学习更新">
-      <change afterPath="$PROJECT_DIR$/附录es6/Set 和 Map.html" afterDir="false" />
+    <list default="true" id="61b6b31e-b005-4ca1-8596-ca4ecc0af661" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/其他/数组去重.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -179,7 +179,7 @@
       <workItem from="1572332849259" duration="603000" />
       <workItem from="1572482284181" duration="8872000" />
       <workItem from="1572598456234" duration="599000" />
-      <workItem from="1572827721632" duration="15441000" />
+      <workItem from="1572827721632" duration="20349000" />
     </task>
     <task id="LOCAL-00001" summary="es6 学习更新">
       <created>1572850266991</created>
@@ -188,7 +188,14 @@
       <option name="project" value="LOCAL" />
       <updated>1572850266991</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="es6 学习更新">
+      <created>1572851645802</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1572851645802</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
