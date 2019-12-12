@@ -17,16 +17,15 @@
         let message =
             SaferHTML`<p>您输入的内容为：${sender}</p>`;
         function SaferHTML(templateData) {
-            let s = templateData[0];
+            let s = templateData[0]; //<p>您输入的内容为：
             for (let i = 1; i < arguments.length; i++) {
                 let arg = String(arguments[i]);
-
                 // Escape special characters in the substitution.
                 s += arg.replace(/&/g, "&amp;")
                     .replace(/</g, "&lt;")
                     .replace(/>/g, "&gt;");
                 // Don't escape special characters in the template.
-                s += templateData[i];
+                s += templateData[i];  // </p>
             }
             return s;
         }
