@@ -1,0 +1,8 @@
+<script type="text/javascript">
+var findMedianSortedArrays = function(nums1, nums2) {
+    let all = [...nums1,...nums2].sort((a,b) => (a - b)),
+        half = all.length / 2 ;
+    return all.length % 2 === 0 ?  (all[half - 1] + all[half]) / 2: all[~~half]  
+};
+console.log(findMedianSortedArrays([3],[-2,-1,-100]))
+</script>

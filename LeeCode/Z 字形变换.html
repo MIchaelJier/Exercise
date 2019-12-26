@@ -1,0 +1,32 @@
+<script type="text/javascript">
+var convert = function(s, numRows) {
+    let  ss = s.split("");
+    let arr = new Array(numRows);
+    if(numRows === 1) return s
+    for(let i = 0 ; i < arr.length ; i++ ) {
+    	arr[i] = [];
+    }
+
+    for(let i = 0 ; i < ss.length ; i = i + 2*numRows - 2) {
+    	// if( ss.length - i >  2*numRows - 2) {
+    		arr[0].push(ss[i]);
+    		let j = 1;
+    		while(i + j !== i + 2*numRows - 2 - j) {
+    			arr[j].push(ss[i + j],ss[i + 2*numRows - 2 - j]);
+    			j++;
+    		}
+    		if(i + j === i + 2*numRows - 2 - j){
+    			arr[j].push(ss[i + j]);
+    		}
+    	// }
+    }
+    let arrString = '';
+    for(let i in arr){
+    	for(let j of arr[i]){
+    		j ? arrString = arrString + j + '' :'';
+    	}
+    }
+    return arrString;
+};
+console.log(convert('Apalindromeisaword,phrase,number,orothersequenceofunitsthatcanbereadthesamewayineitherdirection,withgeneralallowancesforadjustmentstopunctuationandworddividers',2))
+</script>

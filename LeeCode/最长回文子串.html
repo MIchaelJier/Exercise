@@ -1,0 +1,61 @@
+<script type="text/javascript">
+var longestPalindrome = function(s) {
+	let ss = s.split(""),
+     	sRe = ss.reverse(),
+    	sL = s.length;
+
+    let arr = new Array(sL);
+    for(let i = 0 ; i < sL ; i++ ) {
+    	arr[i] = new Array(sL);
+    }
+
+    let Max = 0,
+    	End = 0;
+
+    for(let i = 0 ; i < sL ; i++ ){
+    	for(let j = 0 ; j < sL ; j++ ){
+    		s[i] === sRe[j] ?
+    			i === 0 || j === 0 ? arr[i][j] = 1 : arr[i][j] = arr[i - 1][j - 1] + 1
+    			: arr[i][j] = 0
+    		if(arr[i][j] > Max){
+    			if( (sL - 1 - j) + arr[i][j] - 1 === i ) {
+    				Max = arr[i][j];
+    				End = i;
+    			}
+    		}
+    	}
+    }
+    return s.substr(End - Max + 1, Max)
+};
+var longestPalindrome2 = function(s) {
+	let Max = 0 ,
+		start = 0 ,
+		end = 0,
+		ss = s.split("");
+	for(let i = 0 ; i < ss.length ; i++) {
+		let next = 1;
+		while(ss[i - next] === ss[i + next] && i - next >= 0 && i + next < ss.length) {  
+			if(next*2 + 1 > Max) {
+				Max = next*2 + 1;
+				start = i - next ; 
+				end = i + next;
+			}
+			next ++; 
+		}
+	}
+	for(let i = 0 ; i < ss.length ; i++) {
+		let next = 1;
+		while(ss[i - next + 1] === ss[i + next] && i - next + 1 >= 0 && i + next < ss.length) {  
+			if(next*2 + 1 > Max) {
+				Max = next*2;
+				start = i - next + 1; 
+				end = i + next;
+			}
+			next ++; 
+		}
+	}
+	return s.substring(start, end + 1)
+};
+let lv = longestPalindrome2("abcdd");
+console.log(lv);
+</script>

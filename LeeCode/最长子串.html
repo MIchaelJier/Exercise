@@ -1,0 +1,16 @@
+<script type="text/javascript">
+var lengthOfLongestSubstring = function(s) {
+    let Longest = 0,
+        son = [];
+    for(let i of s) {
+        if(son.indexOf(i) > -1) {
+            son.length > Longest ? Longest = son.length : '' ;   
+            son = son.slice(son.indexOf(i) + 1, son.length)
+        }
+        son.push(i)
+    }
+    son.length > Longest ? Longest = son.length : ''
+    return Longest;
+};
+console.log(lengthOfLongestSubstring('abab!babab!bab  ab!bbaabaab!bbaabaab!bb'))
+</script>
