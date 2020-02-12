@@ -21,9 +21,19 @@
             for (let i = 1; i < arguments.length; i++) {
                 let arg = String(arguments[i]);
                 // Escape special characters in the substitution.
-                s += arg.replace(/&/g, "&amp;")
-                    .replace(/</g, "&lt;")
-                    .replace(/>/g, "&gt;");
+                // s += arg.replace(/&/g, "&amp;")
+                //     .replace(/</g, "&lt;")
+                //     .replace(/>/g, "&gt;");
+                s += arg.replace(/[<>&]/g , (match) => {
+                   switch (match) {
+                        case "<" :
+                            return "&lt;";
+                        case ">" :
+                            return  "&gt;";
+                       case "&" :
+                           return "&amp;";
+                   }
+                });
                 // Don't escape special characters in the template.
                 s += templateData[i];  // </p>
             }

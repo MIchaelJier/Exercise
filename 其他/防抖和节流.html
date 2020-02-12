@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <button id="c1">点击c1</button>
+    <button id="c2">点击c2</button>
+ <script>
+
+     document.getElementById('c1').addEventListener('click',
+         debounce(function () {
+             console.log('c1发生了点击事件')
+         },500)
+     );
+     document.getElementById('c2').addEventListener('click',
+         throttle(function () {
+             console.log('c2发生了点击事件')
+         },500)
+     );
+
+     function debounce(fn,wait) {
+        let timeflag = null;
+        return function () {
+            clearTimeout(timeflag);
+            timeflag = setTimeout(() => {
+                fn.apply(this)
+            },wait)
+        }
+     }
+     function throttle(fn,wait) {
+        let flag = true;
+        return function () {
+            if(!flag) return;
+            flag = false;
+            setTimeout(() => {
+                fn.apply(this);
+                flag = true;
+            },wait)
+        }
+     }
+ </script>
+</body>
+</html>
