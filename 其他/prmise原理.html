@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        function MyPromise(fn){
+            let state = 'pending';
+            let value = null;
+            const callbacks = [];
+
+            this.then = function (onFulfilled){
+                return new  MyPromise((resolve, reject)=>{
+                    handle({ //桥梁，将新 Promise 的 resolve 方法，放到前一个 promise 的回调对象中
+                        onFulfilled,
+                        resolve
+                    })
+                })
+            };
+
+            // this.all = function(promises) {
+            //     let results = [];
+            //     return new MyPromise(function(resolve) {
+            //         promises.forEach(function(val) {
+            //             // 按顺序执行每一个Promise操作
+            //             val.then(function(res) {
+            //                 results.push(res);
+            //             });
+            //         });
+            //         resolve(results);
+            //     });
+            // };
+
+            function handle(callback){
+                if(state === 'pending'){
+                    callbacks.push(callback);
+                    return;
+                }
+
+                if(state === 'fulfilled'){
+                    if(!callback.onFulfilled){
+                        callback.resolve(value);
+                        return;
+                    }
+                    const ret = callback.onFulfilled(value); //处理回调
+                    callback.resolve(ret) //处理下一个 promise 的resolve
+                }
+            }
+            function resolve(newValue){
+                const fn = ()=>{
+                    if(state !== 'pending')return;
+
+                    state = 'fulfilled';
+                    value = newValue;
+                    handelCb()
+                };
+
+                setTimeout(fn,0) //基于 PromiseA+ 规范
+            }
+
+            function handelCb(){
+                while(callbacks.length) {
+                    const fulfiledFn = callbacks.shift();
+                    handle(fulfiledFn)
+                }
+            }
+
+
+            fn(resolve)
+        }
+        let a = new MyPromise(function(resolve,reject){
+            resolve(1)
+        }).then(res => {
+            console.log(res)
+        });
+
+
+        console.log(2);
+        ///////////////////////////////////////////////////////////////////////////
+        //Promise.all 实现
+        Promise.all = function(promises) {
+            let results = [];
+            return new Promise(function(resolve) {
+                promises.forEach(function(val) {
+                    // 按顺序执行每一个Promise操作
+                    val.then(function(res) {
+                        results.push(res);
+                    });
+                });
+                resolve(results);
+            });
+        }
+    </script>
+</body>
+</html>
