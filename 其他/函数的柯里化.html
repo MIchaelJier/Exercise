@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        // function sum(a, b, c) {
+        //     return a + b + c
+        // }
+        // function curry(fn) {
+        //     const argsList = [...arguments].splice(1)
+        //     console.log({'argsList':argsList})
+        //     return function () {
+        //         const newArgsList = argsList.concat([...arguments])
+        //         return fn.apply(this, newArgsList)
+        //     }
+        // }
+        // const sumAll = curry(sum)
+        // console.log(sumAll(1)(2)(3)) // 6
+        // console.log(sumAll(1)(2)(3)(4)(5)) // 15
+
+
+        /* * * * * * * * * * * * * * * * * * * * * * * * *
+        * // 实现一个add方法，使计算结果能够满足如下预期：  *
+        * add(1)(2)(3) = 6;                              *
+        * add(1, 2, 3)(4) = 10;                          *
+        *add(1)(2)(3)(4)(5) = 15;                        *
+        * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+
+        function curryfirst(){
+            const argsList = [...arguments]
+
+            const fn = function(){
+                argsList.push(...arguments)
+                return fn
+            }
+
+            fn.toString = function(){
+                return argsList.reduce((a, b) => a + b)
+            }
+
+            return fn
+        }
+
+
+        function add() {
+            return [...arguments].reduce( (a,b) => a + b)
+        }
+
+        function curry(fn) {
+            const Arg = [...arguments].splice(1)
+            return function () {
+                const innerArg = Arg.concat([...arguments])
+                if(innerArg.length === Arg.length)
+                    return fn.apply(this, innerArg)
+                return curry.apply(this, [fn, ...innerArg])
+            }
+        }
+
+        const addPlus = curry(add);
+
+        let show = addPlus(1)(2)(3,2)(7)()
+        console.log(show)
+    </script>
+</body>
+</html>

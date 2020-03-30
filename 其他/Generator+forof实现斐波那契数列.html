@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        function* fibonacci() {
+            let [prev, curr] = [0, 1];
+            for (;;) {
+                yield curr;
+                [prev, curr] = [curr, prev + curr];
+            }
+        }
+
+        // for (let n of fibonacci()) {
+        //     if (n > 1000) break;
+        //     console.log(n);
+        // }
+        function fn(num) {
+            let flag = 0;
+            for (let n of fibonacci()) {
+                flag ++;
+        if (flag === num) {
+            console.log(n);
+            break;
+        }
+            }
+        }
+        fn(5)
+    </script>
+</body>
+</html>

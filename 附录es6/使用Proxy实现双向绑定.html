@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        class VM {
+            constructor(options, elementId) {
+                this.data = options.data || {}; // 监听的数据对象
+                this.el = document.querySelector(elementId);
+                this.init(); // 初始化
+            }
+
+            // 初始化
+            init() {
+                this.observer();
+            }
+
+            // 监听数据变化方法
+            observer() {
+                const handler = {
+                    get: (target, propkey) => {
+                        console.log(`监听到${propkey}被取啦,值为:${target[propkey]}`);
+                        return target[propkey];
+                    },
+                    set: (target, propkey, value) => {
+                        if(target[propkey] !== value){
+                            console.log(`监听到${propkey}变化啦,值变为:${value}`);
+                        }
+                        return true;
+                    }
+                };
+                this.data = new Proxy(this.data, handler);
+            }
+        }
+
+        // 测试一下
+        const vm = new VM({
+            data: {
+                name: 'defaultName',
+                test: 'defaultTest',
+            },
+        }, '#app');
+
+        vm.data.name = 'changeName'; // 监听到name变化啦,值变为:changeName
+        vm.data.test = 'changeTest'; // 监听到test变化啦,值变为:changeTest
+
+        console.log(vm.data.name); // 监听到name被取啦,值为:changeName
+        console.log(vm.data.test) // 监听到test被取啦,值为:changeTest
+    </script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+        #content {
+            width: 200px;
+            height: 200px;
+            background: #ff6632;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+
+<body>
+<div id="content">test</div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    (function (window) {  //传入window，提高变量的查找效率
+        function myQuery(selector) {  //这个函数就是对外提供的接口。
+            //调用这个函数的原型对象上的_init方法，并返回
+            return myQuery.prototype._init(selector);
+        }
+        myQuery.prototype = {
+            /*初始化方法，获取当前query对象的方法*/
+            _init: function (selector) {
+                if (typeof selector == "string") {
+                    //把查找到的元素存入到这个原型对象上。
+                    this.ele = window.document.querySelector(selector);
+                    //返回值其实就是原型对象。
+                    return this;
+                }
+            },
+            /*单击事件：
+             * 为了规避click的300ms的延迟，自定义一个单击事件
+             * 触发时间：
+             *   当抬起手指的时候触发
+             *   需要判断手指落下和手指抬起的事件间隔，如果小于500ms表示单击时间。
+             *
+             *   如果是大于等于500ms，算是长按时间
+             * */
+            tap: function (handler) {
+                this.ele.addEventListener("touchstart", touchFn);
+                this.ele.addEventListener("touchend", touchFn);
+
+                var startTime,
+                    endTime;
+
+                function touchFn(e) {
+                    e.preventDefault()
+                    switch (e.type) {
+                        case "touchstart":
+                            startTime = new Date().getTime();
+                            break;
+                        case "touchend":
+                            endTime = new Date().getTime();
+                            if (endTime - startTime < 500) {
+                                handler.call(this, e);
+                            }
+                            break;
+                    }
+                }
+            },
+            /**
+             * 长按
+             * @param handler
+             */
+            longTag: function (handler) {
+                this.ele.addEventListener("touchstart", touchFn);
+                this.ele.addEventListener("touchmove", touchFn);
+                this.ele.addEventListener("touchend", touchFn);
+                var timerId;
+
+                function touchFn(e) {
+                    switch (e.type) {
+                        case "touchstart":  //500ms之后执行
+                            timerId = setTimeout(function () {
+                                handler.call(this, e);
+                            }, 500)
+                            break;
+                        case "touchmove":
+                            //如果中间有移动也清除定时器
+                            clearTimeout(timerId)
+                            break;
+                        case "touchend":
+                            //如果在500ms之内抬起了手指，则需要定时器
+                            clearTimeout(timerId);
+                            break;
+                    }
+                }
+            },
+            /**
+             * 左侧滑动。
+             记录手指按下的左边，在离开的时候计算 deltaX是否满足左滑的条件
+             *
+             */
+            slide: function (handler) {
+                this.ele.addEventListener("touchstart", touchFn);
+                this.ele.addEventListener("touchend", touchFn);
+                var startX, startY, endX, endY;
+
+                function touchFn(e) {
+                    e.preventDefault();
+                    var firstTouch = e.changedTouches[0];
+                    switch (e.type) {
+                        case "touchstart":
+                            startX = firstTouch.pageX;
+                            startY = firstTouch.pageY;
+                            break;
+                        case "touchend":
+                            endX = firstTouch.pageX;
+                            endY = firstTouch.pageY;
+                            //x方向移动大于y方向的移动，并且x方向的移动大于25个像素，表示在向左侧滑动
+                            if (Math.abs(endX - startX) >= Math.abs(endY - startY) && startX - endX >= 25) {
+                                handler.call(this, e, 'left');
+                            }else if(Math.abs(endX - startX) >= Math.abs(endY - startY) && startX - endX < -25){
+                                handler.call(this, e, 'right');
+                            }else if(Math.abs(endX - startX) < Math.abs(endY - startY) && startY - endY >= 25){
+                                handler.call(this, e, 'up');
+                            }else if(Math.abs(endX - startX) < Math.abs(endY - startY) && startY - endY < -25){
+                                handler.call(this, e, 'down');
+                            }
+                            break;
+                    }
+                }
+            },
+            /**
+             * 右侧滑动。
+             *
+             */
+            slideRight: function (e) {
+
+            }
+        }
+        window.$$ = window.myQuery = myQuery;
+    })(window);
+
+    $$("div").tap(function (e) {
+        console.log("单击事件")
+    })
+    $$("div").slide(function (e, type) {
+        let content = ''
+        console.log(this);
+        type === 'left' && (content = "左侧滑动了.....");
+        type === 'right' && (content = "右侧滑动了....");
+        type === 'up' && (content = "向上滑动了....");
+        type === 'down' && (content = "向下滑动了....");
+        this.innerHTML = content;
+    })
+    $$("div").longTag(function () {
+        console.log("长按事件");
+    })
+
+
+    var _x_start, _y_start, _x_move, _y_move, _x_end, _y_end, left_start, top_start;
+    document.getElementById("content").addEventListener("touchstart", function (e) {
+
+        _x_start = e.touches[0].pageX;
+        _y_start = e.touches[0].pageY;
+        left_start = $("#content").css("left");
+        top_start = $("#content").css("top");
+
+    })
+    document.getElementById("content").addEventListener("touchmove", function (e) {
+        _x_move = e.touches[0].pageX;
+        _y_move = e.touches[0].pageY;
+        $("#content").css("left", parseFloat(_x_move) - parseFloat(_x_start) + parseFloat(left_start) + "px");
+        $("#content").css("top", parseFloat(_y_move) - parseFloat(_y_start) + parseFloat(top_start) + "px");
+    })
+    document.getElementById("content").addEventListener("touchend", function (e) {
+        // var _x_end=e.changedTouches[0].pageX;
+        // var _y_end=e.changedTouches[0].pageY;
+        // console.log("end",_x_end)
+    })
+    //阻止浏览器下拉事件
+    $('body').on('touchmove', function (event) { event.preventDefault(); });
+</script>
+
+</html>

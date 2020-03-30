@@ -19,18 +19,19 @@
     //     }
     //     return target;
     // }
-    function deepclone(inOBbj){
-        let target = {};
-        for(let key in inObj){
-            if(Object.prototype.hasOwnProperty.call(inObj,key)){
-                if(typeof inOBbj[key] === 'object'){
-                    target[key] = arguments.callee(inOBbj[key])
-                }else {
-                    target[key] = inOBbj[key]
+        function deepclone(inObj) {
+            let target = {}
+            for(let key in inObj){
+                if(Object.prototype.hasOwnProperty.call(inObj,key)){
+                    if(typeof inObj[key] === 'object'){
+                        target[key] = arguments.callee(inObj[key])
+                    }else{
+                        target[key] = inObj[key]
+                    }
                 }
             }
+            return target
         }
-    }
     let a = {
         head:1,
         body:{body1:1}
