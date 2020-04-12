@@ -6,21 +6,43 @@
 </head>
 <body>
  <script>
+     const testArr = [2,5,1,4,12,12,0,1,-11];
+     //sort方法
+     // console.log(
+     //    testArr.sort((a,b) => ( a - b ))
+     // )
+     // 冒泡排序
      function BubbleSort(arr) {
          let len = arr.length - 1;
         for(let i = 0 ; i < len  ; i ++){
             for(let j = 0 ; j < len - i  ; j ++){
                 if(arr[j] > arr[j + 1]){
-                    arr[j] ^=  arr[j + 1];
-                    arr[j + 1] ^=  arr[j];
-                    arr[j] ^=  arr[j + 1];
+                    // arr[j] ^=  arr[j + 1];
+                    // arr[j + 1] ^=  arr[j];
+                    // arr[j] ^=  arr[j + 1];
+                    [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
                 }
             }
         }
         return arr
      }
-     console.log(BubbleSort([2,5,1,4,12,12,0,1,-11])
-     )
+     // console.log(BubbleSort(testArr))
+
+     // 快排
+     function quickSort(array) {
+         if (array.length <= 1) {
+             return array;
+         }
+         const pivotIndex = Math.floor(array.length / 2);
+         const pivot = array.splice(pivotIndex, 1)[0];
+         const left = [], right = [];
+         array.forEach(item => {
+             item < pivot ? left.push(item) : right.push(item)
+         })
+         return quickSort(left).concat(pivot,quickSort(right))
+     }
+     // console.log(quickSort(testArr))
+
  </script>
 </body>
 </html>

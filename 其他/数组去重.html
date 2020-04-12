@@ -19,7 +19,7 @@
         };
 
 
-        console.log(delre(a));
+        // console.log(delre(a));
 
         //way 2
         let delre2 = arr => {
@@ -27,7 +27,7 @@
                 return  arr.indexOf(e) === i;
             })
         };
-        console.log(delre2(a));
+        // console.log(delre2(a));
 
         //way 3
          //利用对象属性去重
@@ -48,11 +48,16 @@
             }
             return res
         }
-        console.log(delre3(a));
-
+        // console.log(delre3(a));
         //way 4
+        function delre4(arr) {
+            return arr.reduce(((prev,cur) => prev.includes(cur) ? prev : [...prev,cur]),[]);
+        }
+        console.log(delre4(a));
+
+        //way 5
         let n = [...new Set(a)];
-        console.log(n);
+        // console.log(n);
     </script>
 </body>
 </html>

@@ -22,7 +22,8 @@
         function deepclone(inObj) {
             let target = {}
             for(let key in inObj){
-                if(Object.prototype.hasOwnProperty.call(inObj,key)){
+                // Object.prototype
+                if(Reflect.hasOwnProperty.call(inObj,key)){
                     if(typeof inObj[key] === 'object'){
                         target[key] = arguments.callee(inObj[key])
                     }else{
@@ -37,7 +38,9 @@
         body:{body1:1}
     };
     let b = JSON.parse(JSON.stringify(a));
-    console.log(deepclone(a))
+    cloneA = deepclone(a);
+    a.footer = 1;
+    console.log(cloneA)
 </script>
 </body>
 </html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>Title</title>
+    <style>
+        #boxes {
+            margin-top: 50px;
+            display: grid;
+        }
+        #boxes .box {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="input">
+    <div id="boxes"></div>
+    <script>
+        // 构建一个n*n的格子(n从输入框输入)，默认背景色都是白色鼠标指针指上去的格子底色要变成红色，鼠标移出时恢复
+        // 鼠标点击格子的时候背景色固定为蓝色，指针hover时也不变红。再次点击时复原成未点击的状态
+        // 格子大小可以用css控制，底色变化用js实现
+
+        document.getElementById('input').addEventListener('keydown',function (event) {
+            if (event.keyCode === 13) {
+                let boxes = document.getElementById('boxes');
+                boxes.innerHTML = '';
+                boxes.style['grid-template-columns'] = `repeat(${this.value}, 50px)`;
+                boxes.style['grid-template-rows'] = `repeat(${this.value}, 50px)`;
+                let num = this.value * this.value;
+
+                while (num > 0){
+                    let box = document.createElement("div");
+                    box.className = 'box';
+                    //鼠标事件
+                    box.addEventListener('mouseover',function () {
+                       if(this.style.background !== 'rgb(0, 0, 255)'){
+                           this.style.background = '#f00'
+                       }
+                    });
+                    box.addEventListener('mouseleave',function () {
+                        if(this.style.background !== 'rgb(0, 0, 255)'){
+                            this.style.background = '#fff'
+                        }
+                    });
+                    box.addEventListener('click',function () {
+                        if( this.style.background === 'rgb(0, 0, 255)'){
+                            this.style.background = '#fff'
+                        }else{
+                            this.style.background = '#00f'
+                        }
+                    });
+                    document.getElementById('boxes').appendChild(box);
+                    num --
+                }
+            }
+        })
+
+    </script>
+</body>
+</html>

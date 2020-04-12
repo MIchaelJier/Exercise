@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        var name = 'nnmm'
+        var obj = {
+            name: 'name1',
+            func: () => {
+                console.log(this.name)
+            },
+            func1: function (){
+                console.log(this.name)
+            },
+            son: {
+                name: 'name-son',
+                func: function(){
+                    console.log(this.name)
+                },
+                func1: ()=>{
+                    console.log(this.name)
+                }
+            }
+        }
+        obj.func()
+        obj.func1()
+        obj.son.func()
+        obj.son.func1()
+
+        const son = obj.son
+        son.func()
+        son.func1()
+
+    </script>
+</body>
+</html>
