@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        input {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<label>
+    <input class = 'check' type="checkbox" >
+    <input class = 'check' type="checkbox">
+    <input class = 'check' type="checkbox">
+    <input class = 'check' type="checkbox">
+    <input class = 'check' type="checkbox">
+    <input id="checkAll" type="button" value="全选/全不">
+    <input id="reverseCheck" type="button" value="反选">
+</label>
+<script>
+        const checkBox = document.querySelectorAll('.check'),
+              checkAll = document.querySelector('#checkAll'),
+              reverseCheck = document.querySelector('#reverseCheck');
+
+        let allFlag = false;
+
+        checkAll.addEventListener('click',function () {
+            checkBox.forEach(item => {
+                item.checked = !allFlag;
+            })
+            allFlag = !allFlag;
+        })
+
+        reverseCheck.addEventListener('click',function () {
+            checkBox.forEach(item => {
+                item.checked = !item.checked
+            })
+        })
+    </script>
+</body>
+</html>

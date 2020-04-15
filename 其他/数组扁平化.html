@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        let arr = [1,2,3,[4,5,[6,7],[8,9]]];
+
+        // way1
+        function flatter1(arr) {
+            return arr.flat(Infinity)
+        }
+
+        console.log(flatter1(arr))
+
+        // way2
+        function flatter2(arr) {
+            let target = [];
+            for(let item of arr){
+                if(Reflect.toString.call(item) === '[object Array]'){
+                    target.push(...arguments.callee(item))
+                }else{
+                    target.push(item)
+                }
+            }
+            return target
+        }
+
+        console.log(flatter2(arr))
+        // way3
+        function flatter3(arr) {
+            return arr.reduce( (prev, curr) => prev.concat( Array.isArray(curr) ? flatter3(curr) : curr) , [])
+        }
+
+        console.log(flatter3(arr))
+    </script>
+</body>
+</html>

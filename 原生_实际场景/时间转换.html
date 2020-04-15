@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script>
+        let box = document.createElement('div');
+        document.body.appendChild(box)
+        function getTime(){
+            let now = new Date()
+            let showTime = addZero`
+            ${now.getFullYear()} 年 ${now.getMonth()} 月 ${now.getDate()} 日
+            <br />
+            星期 ${now.getDay()}
+            <br />
+            ${now.getHours()} : ${now.getMinutes()} : ${now.getSeconds()}
+        `
+            function addZero(strings, ...args){
+                const after = args.map(item => item.toString().padStart(2, '0'))
+                return strings.reduce((prev,curr,i) => `${prev}${curr}${after[i] || '' }`,'')
+            }
+
+            box.innerHTML = showTime
+        }
+
+        setInterval(getTime, 1000)
+
+    </script>
+</body>
+</html>

@@ -6,53 +6,90 @@
 </head>
 <body>
  <script>
-    //发布者 / 订阅者 模式
-    var publisher = {
-        publish(pubsub) {
-            pubsub.publish()
-        }
-    };
-    var pubsub = {
-        subscribes: [],
-        publish() {
-            this.subscribes.forEach(subscribe =>{
-                subscribe.update();
-            })
-        },
-        subscribe(sub) {
-            this.subscribes.push(sub)
-        }
-    };
-    var subscribe = {
-        update() {
-            console.log('update')
-        },
-        subscribe(pubsub) {
-            pubsub.subscribe(this);
-        }
-    };
-    subscribe.subscribe(pubsub);
-    publisher.publish(pubsub);
+    // --------------------------------  观察者模式 ---------------------------------------------------
+    // 目标者
+     class Subject {
+         constructor() {
+            this.obversers = []
+         }
+         // 添加
+         add(observer){
+             this.obversers.push(observer)
+         }
+         // 通知
+         notify(){
+             for(let observer of this.obversers){
+                 observer.update()
+             }
+         }
+         // 删除
+         del(observer) {
+             this.obversers = this.obversers.filter(item => item !== observer)
+         }
+    }
+    //观察者
+     class Observer {
+         constructor(name) {
+             this.name = name
+         }
+         update(){
+             console.log(`目标者通知我更新了，我是${this.name}`)
+         }
+     }
 
-    //观察者模式
-    var subject = {
-        observers: [],
-        notify() {
-            this.observers.forEach(observer =>{
-                observer.update()
-            })
-        },
-        attach (observer) {
-            this.observers.push(observer)
-        }
-    };
-    var observer = {
-        update(){
-            alert('updated')
-        }
-    };
-    subject.attach(observer);
-    subject.notify()
+     let subject = new Subject();
+     let obv1 = new Observer('1号')
+     let obv2 = new Observer('2号')
+     subject.add(obv1)
+     subject.add(obv2)
+     subject.del(obv1)
+     subject.notify()
+
+    // --------------------------------  发布者 订阅者 模式 ---------------------------------------------------
+     let subCenter = {
+         list:{} ,
+         // 订阅
+         subscribe: function(key, fn){
+             if(!this.list[key]) this.list[key] = []
+             this.list[key].push(fn)
+         },
+         // 发布
+         publish: function(key, ...args){
+             if(!this.list[key]) return false;
+             for(let item of this.list[key]){
+                 item.call(this, ...args);
+             }
+         },
+         // 取消
+         unSubscribe: function (key, fn) {
+            let keyList = this.list[key];
+            if(!keyList) return false;
+            if(!fn){
+                keyList && (keyList.length = 0)
+            }else{
+                keyList.forEach((item, index) => {
+                    if(item.toString() === fn.toString()){
+                        keyList.splice(index, 1)
+                    }
+                })
+            }
+         }
+     }
+    subCenter.subscribe('hello',function (time) {
+        console.log(`hello,现在是${time}`)
+    })
+    subCenter.subscribe('hello',function (time) {
+        console.log(`您好,现在是${time}`)
+    })
+    subCenter.subscribe('bye',function (time) {
+        console.log(`bye,现在是${time}`)
+    })
+    subCenter.unSubscribe('hello',function (time) {
+        console.log(`您好,现在是${time}`)
+    })
+    subCenter.publish('hello','18:00:00')
+    subCenter.publish('bye','24:00:00')
+
  </script>
 </body>
 </html>
